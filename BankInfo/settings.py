@@ -31,7 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-	'bank',
+    'bank',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -53,6 +53,14 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'BankInfo.urls'
 
 TEMPLATES = [
+    {
+		'BACKEND': 'django.template.backends.jinja2.Jinja2',
+		'DIRS': [],
+		'APP_DIRS': True,
+		'OPTIONS': {
+			'environment': 'BankInfo.jinja2_bridge.environment'
+		},
+    },
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [],
