@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block head %}
+	<title> Branches </title>
+	<link rel="stylesheet" type="text/css" href="{{ static('table.css') }}">
+{% endblock %}
+
+
+{% block body %}
+
+	{% if data is defined and data|length > 0 %}
+
+		<div class="table-responsive-vertical shadow-z-1">
+			<table id="table" class="table table-hover table-striped">
+				<thead>
+					<tr>
+						<th>IFSC</th>
+						<th>ID</th>
+						<th>Branch</th>
+						<th>Address</th>
+						<th>City</th>
+						<th>District</th>
+						<th>State</th>
+						<th>Bank Name</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for d in data %}
+					<tr>
+						<td data-title="IFSC"> {{ d.ifsc }} </td>
+						<td data-title="ID"> {{ d.bank_id }} </td>
+						<td data-title="Branch"> {{ d.branch }} </td>
+						<td data-title="Address"> {{ d.address }} </td>
+						<td data-title="City"> {{ d.city }} </td>
+						<td data-title="District"> {{ d.district }} </td>
+						<td data-title="State"> {{ d.state }} </td>
+						<td data-title="Bank Name"> {{ d.bank_name }} </td>
+					</tr>
+					{% endfor %}
+
+				</tbody>
+			</table>
+		</div>
+
+		<nav aria-label="..." class="bottom-nav">
+			<ul class="pagination">
+				{% if not page == 1%}
+				<li class="page-item prev">
+					<a class="page-link" onclick="decrement('{{page}}')">Previous</a>
+				</li>
+				{% endif %}
+
+				{% if not last%}
+				<li class="page-item next" onclick="increment('{{page}}')">
+					<a class="page-link" onclick="increment('{{page}}')">Next</a>
+				</li>
+				{% endif %}
+			</ul>
+		</nav>
+
+	{% elif fallback is defined %}
+
+	<p class="fallback"> No data to display. Please search again </p>
+
+	{% endif %}
+
+
+	<script>
+
+		var decrement = function (page) {
+			var page = parseInt(page) - 1;
+			var url = new URL(location.href)
+			url.searchParams.set('page', page)
+			window.location = url.toString();
+		}
+
+		var increment = function (page) {
+			var page = parseInt(page) + 1;
+			var url = new URL(location.href)
+			url.searchParams.set('page', page)
+			window.location = url.toString();
+		}
+
+	</script>
+
+
+{% endblock %}

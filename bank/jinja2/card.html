@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block head %}
+	<title> Bank Details </title>
+	<link rel="stylesheet" type="text/css" href="{{ static('card.css') }}">
+{% endblock %}
+
+
+{% block body %}
+
+	<div class="table-responsive-vertical shadow-z-1">
+		<table id="table" class="table table-hover table-mc-light-blue">
+			<thead>
+				<tr>
+					<th>IFSC</th>
+					<th>Bank ID</th>
+					<th>Branch</th>
+					<th>Address</th>
+					<th>City</th>
+					<th>District</th>
+					<th>State</th>
+					<th>Bank Name</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					{% for d in branch %}
+						<td data-title="IFSC"> {{ d.ifsc }} </td>
+						<td data-title="Bank ID"> {{ d.bank_id }} </td>
+						<td data-title="Branch"> {{ d.branch }} </td>
+						<td data-title="Address"> {{ d.address }} </td>
+						<td data-title="City"> {{ d.city }} </td>
+						<td data-title="District"> {{ d.district }} </td>
+						<td data-title="State"> {{ d.state }} </td>
+						<td data-title="Bank Name"> {{ d.bank_name }} </td>
+					{% endfor %}
+				</tr>
+			</tbody>
+		</table>
+	</div>
+{% endblock %}
