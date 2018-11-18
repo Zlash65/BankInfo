@@ -1,0 +1,17 @@
+body {
+	background: whitesmoke;
+}
+
+.form-control {
+	margin-right: 5px;
+}
+
+.form-inputs {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.navbar-default {
+	margin-top: -10px;
+}
