@@ -17,7 +17,8 @@ class BankConfig(AppConfig):
 			from bank.models import Bank
 			if not len(Bank.objects.all()):
 				print("Setting up database")
-				dump_bank_data()
+				# dump_bank_data()
+				dump_bank_data_to_mongo()
 				create_dummy_users()
 
 		self.ready_has_run = True
@@ -26,6 +27,28 @@ def db_table_exists(table_name):
 	''' check if the tables are already created or not '''
 	from django.db import connection
 	return table_name in connection.introspection.table_names()
+
+def dump_bank_data_to_mongo():
+	import sys
+	import pandas as pd
+	from bank.models import Bank
+
+	url = "https://raw.githubusercontent.com/snarayanank2/indian_banks/master/bank_branches.csv"
+	bank_data = pd.read_csv(url)
+	records = bank_data.to_dict(orient='records')
+
+	# add entries to database in batches
+	total = int(len(records)/50) + 1
+	for i in range(0, 51):
+		sys.stdout.write('Setting up database for Banks [%s%s]\r' % ("="*(i+1), " "*(50-(i+1))))
+		sys.stdout.flush()
+
+		entries = []
+		for row in records[(i*total):((i+1)*total)]:
+			entries.append(Bank(**row))
+
+		# bulk insert batch entries
+		Bank.objects.bulk_create(entries)
 
 def dump_bank_data():
 	import csv, sys
