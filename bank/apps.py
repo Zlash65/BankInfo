@@ -58,7 +58,7 @@ def dump_bank_data():
 
 		try:
 			bank_detail.save()
-		except Exception, e:
+		except Exception as e:
 			print(e)
 			# pass
 
@@ -70,5 +70,5 @@ def create_dummy_users():
 	try:
 		User.objects.create_user(username="allen",
 			password="asdf1234", is_superuser=1, is_staff=1)
-	except Exception, e:
+	except Exception as e:
 		print(e)
