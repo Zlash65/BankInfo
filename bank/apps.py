@@ -28,14 +28,23 @@ def db_table_exists(table_name):
 	return table_name in connection.introspection.table_names()
 
 def dump_bank_data():
-	import csv, urllib2, sys
+	import csv, sys
 	from bank.models import Bank
 
 	url = "https://raw.githubusercontent.com/snarayanank2/indian_banks/master/bank_branches.csv"
-	response = urllib2.urlopen(url)
+
+	try:
+		import urllib2
+		response = urllib2.urlopen(url)
+		csv_reader = list(csv.reader(response, delimiter=str(',').encode('utf-8')))[1:]
+	except ImportError:
+		import urllib.request as urllib
+		response = urllib.urlopen(url)
+
+		csv_reader = response.read().decode('utf-8')
+		csv_reader = list(csv.reader(csv_reader.splitlines()))[1:]
 
 	# slice first row as it stores headers
-	csv_reader = list(csv.reader(response, delimiter=str(',').encode('utf-8')))[1:]
 	line_count, total = 0, len(list(csv_reader))/50
 
 	for row in csv_reader:
