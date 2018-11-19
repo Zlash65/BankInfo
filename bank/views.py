@@ -13,10 +13,12 @@ def home(request):
 	if select == "IFSC":
 		ifsc = request.GET.get('ifsc','')
 		return search_by_ifsc(request, ifsc)
-	else:
+	elif select == "Bank":
 		bank = request.GET.get('bank','')
 		city = request.GET.get('city','')
 		return search_by_bank(request, bank, city)
+	else:
+		return search_all(request)
 
 def search_by_ifsc(request, ifsc):
 	from bank.models import Bank
@@ -33,6 +35,15 @@ def search_by_bank(request, bank_name, city):
 
 	if not len(branch) and bank_name and city:
 		args.update({"fallback": "No data to display. Please search again!"})
+
+	return render(request, 'list.html', args)
+
+def search_all(request):
+	from bank.models import Bank
+	page = int(request.GET.get('page', '1'))
+
+	branch = list(Bank.objects.all())
+	args = get_paging_index(branch, page)
 
 	return render(request, 'list.html', args)
 
