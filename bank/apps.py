@@ -41,7 +41,7 @@ def dump_bank_data():
 	for row in csv_reader:
 
 		# show progress bar
-		start = line_count / total
+		start = int(line_count / total)
 		line_count += 1
 		sys.stdout.write('Setting up database for Banks [%s%s]\r' % ("="*(start+1), " "*(50-start)))
 		sys.stdout.flush()
