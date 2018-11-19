@@ -82,11 +82,24 @@ WSGI_APPLICATION = 'BankInfo.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3')
+#     }
+# }
+
+# Using MongoDB
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+	'default': {
+		'ENGINE': 'djongo',
+		'AUTH_SOURCE': 'bank_database',
+		'NAME': 'bank_database',
+		'USER': 'banker',
+		'PASSWORD': 'bank12345',
+		'HOST': 'ds211774.mlab.com',
+		'PORT': 11774,
+	}
 }
 
 
@@ -125,5 +138,9 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
+
+# heroku static files error resolvement
+PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
+STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
 
 STATIC_URL = '/static/'
